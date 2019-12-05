@@ -175,6 +175,7 @@ operations = {
     "merge": merge,
     "count": lambda *args: sum(1 if a else 0 for a in args),
     "in": in_operator,
+    "!in": lambda a, b: not in_operator(a, b),
 }
 
 
