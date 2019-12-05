@@ -110,7 +110,7 @@ jsonLogic(False, i_wasnt_even_supposed_to_be_here);
 ```bash
  pip install git+ssh://git@github.com/KMDPartners/json-logic-py.git
 ```
-Or in requirements.txt
+Or in Pipfile
 ```bash
 [packages]
 json-logic = {editable = true,git = "ssh://git@github.com/KMDPartners/json-logic-py.git"}
