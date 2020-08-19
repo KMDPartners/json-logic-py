@@ -104,7 +104,7 @@ def in_operator(a, b):
     else:
         return False
 
-def get_var(data, var_name, not_found=None):
+def get_var(data, var_name, not_found=None, strict_mode=False):
     """Gets variable value from data dictionary."""
     try:
         for key in str(var_name).split('.'):
@@ -112,7 +112,9 @@ def get_var(data, var_name, not_found=None):
                 data = data[key]
             except TypeError:
                 data = data[int(key)]
-    except (KeyError, TypeError, ValueError):
+    except (KeyError, TypeError, ValueError) as err:
+        if strict_mode and isinstance(err, KeyError):
+            raise err
         return not_found
     else:
         return data
@@ -179,7 +181,7 @@ operations = {
 }
 
 
-def jsonLogic(tests, data=None):
+def jsonLogic(tests, data=None, strict_mode=False):
     """Executes the json-logic with given data."""
     # You've recursed to a primitive, stop!
     if tests is None or not isinstance(tests, dict):
@@ -196,10 +198,10 @@ def jsonLogic(tests, data=None):
         values = [values]
 
     # Recursion!
-    values = [jsonLogic(val, data) for val in values]
+    values = [jsonLogic(val, data, strict_mode) for val in values]
 
     if operator == 'var':
-        return get_var(data, *values)
+        return get_var(data, *values, strict_mode=strict_mode)
     if operator == 'missing':
         return missing(data, *values)
     if operator == 'missing_some':
