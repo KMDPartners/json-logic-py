@@ -99,7 +99,7 @@ def merge(*args):
 
 def in_operator(a, b):
     """Implements the 'in' operator for work with lists."""
-    if isinstance(b, list):
+    if "__contains__" in dir(b):
         return a in b
     else:
         return False
@@ -166,7 +166,6 @@ operations = {
     "?:": lambda a, b, c: b if a else c,
     "if": if_,
     "log": lambda a: logger.info(a) or a,
-    "in": lambda a, b: a in b if "__contains__" in dir(b) else False,
     "cat": lambda *args: "".join(str(arg) for arg in args),
     "+": plus,
     "*": lambda *args: reduce(lambda total, arg: total * float(arg), args, 1),

@@ -342,6 +342,11 @@ class JSONLogicTest(unittest.TestCase):
         is a substring:
         """
         self.assertTrue(jsonLogic({"in": ["Spring", "Springfield"]}))
+        self.assertTrue(jsonLogic({"in": ["Spring", ["Spring", "summer"]]}))
+        self.assertTrue(jsonLogic({"in": [{"var": "state"}, ["tx", "al"]]}, data={"state": "tx"}))
+        self.assertTrue(jsonLogic({"!in": ["Summer", "Springfield"]}))
+        self.assertTrue(jsonLogic({"!in": ["Winter", ["Spring", "summer"]]}))
+        self.assertTrue(jsonLogic({"!in": [{"var": "state"}, ["tx", "al"]]}, data={"state": "ca"}))
 
     def test_cat(self):
         """
